@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Short URL Generator</title>
+  <link rel="stylesheet" href="D:\URL\Untitled-2.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+</head>
+<body>
+  <div class="login-container">
+    <h1>🔗 Create Secure Short URL</h1>
+
+    <!-- Input Form -->
+    <form id="urlForm">
+      <input type="url" id="longurl" class="input-box" placeholder="Enter HTTPS URL" required>
+      <input type="text" id="alias" class="input-box" placeholder="Custom Alias (optional)">
+      <input type="date" id="expiry" class="input-box">
+      <button type="submit" class="btn">Generate Short URL</button>
+    </form>
+
+    <!-- Result Section -->
+    <div id="result" style="display:none;">
+      <p><strong>Original:</strong> <span id="originalUrl"></span></p>
+      <p><strong>Short URL:</strong> 
+        <a href="#" id="shortUrlLink" target="_blank" rel="noopener noreferrer"></a>
+        <button class="btn" style="margin-top:10px;" id="copyBtn">📋 Copy</button>
+      </p>
+      <canvas id="qrcode"></canvas>
+      <p id="count"></p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("urlForm");
+    const resultBox = document.getElementById("result");
+    const shortUrlLink = document.getElementById("shortUrlLink");
+    const originalUrlSpan = document.getElementById("originalUrl");
+    const copyBtn = document.getElementById("copyBtn");
+
+    const blockedDomains = ["malicious.com", "phishing.com", "fake.com"]; // unsafe domains
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const longUrl = document.getElementById("longurl").value.trim();
+      const alias = document.getElementById("alias").value.trim() || Math.random().toString(36).substring(2, 8);
+
+      try {
+        const urlObj = new URL(longUrl);
+
+        // HTTPS check
+        if (urlObj.protocol !== "https:") {
+          alert("⚠️ Only HTTPS URLs are allowed!");
+          return;
+        }
+
+        // Unsafe domain check
+        const hostname = urlObj.hostname.toLowerCase();
+        if (blockedDomains.some(domain => hostname.includes(domain))) {
+          alert("⚠️ The entered URL is blocked for security reasons!");
+          return;
+        }
+
+        // Generate secure short URL
+        const shortUrl = "https://sho.rt/" + encodeURIComponent(alias);
+
+        // Show results
+        originalUrlSpan.textContent = longUrl;
+        shortUrlLink.href = shortUrl; // correct linking
+        shortUrlLink.textContent = shortUrl;
+
+        // Generate QR code
+        QRCode.toCanvas(document.getElementById("qrcode"), shortUrl, { width: 180 });
+
+        // Count links
+        let count = localStorage.getItem("shortCount") || 0;
+        count++;
+        localStorage.setItem("shortCount", count);
+        document.getElementById("count").textContent = "You have created " + count + " short links.";
+
+        resultBox.style.display = "block";
+      } catch (err) {
+        alert("⚠️ Invalid URL! Please enter a proper HTTPS link.");
+      }
+    });
+
+    // Copy button
+    copyBtn.addEventListener("click", () => {
+      navigator.clipboard.writeText(shortUrlLink.textContent);
+      alert("Short URL copied! ✅");
+    });
+  </script>
+</body>
+</html>

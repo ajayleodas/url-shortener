@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account</title>
+  <link rel="stylesheet" href="D:\URL\create account.css">
+</head>
+<body>
+  
+  <div class="container">
+    <h1>📝 <span>Create Account</span></h1>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+    
+    <form onsubmit="createAccount(); return false;">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter Username" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Enter Email" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter Password" required>
+
+      <label for="confirm-password">Confirm Password</label>
+      <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+
+      <button type="submit">Sign Up 🚀</button>
+    </form>
+
+    <p style="margin-top: 15px;">
+      <a href="forgot.html">Forgot Password?</a>
+    </p>
+  </div>
+
+  <script>
+    function createAccount() {
+      let user = document.getElementById("username").value;
+      let email = document.getElementById("email").value;
+      let pass = document.getElementById("password").value;
+      let confirmPass = document.getElementById("confirm-password").value;
+
+      if (!user || !email || !pass || !confirmPass) {
+        alert("⚠️ Please fill all fields");
+        return;
+      }
+
+      if (pass !== confirmPass) {
+        alert("❌ Passwords do not match!");
+        return;
+      }
+
+      // Placeholder for saving user details (could use localStorage)
+      alert(`✅ Account created successfully for ${user}!`);
+      window.location.href = "login.html"; // Redirect to login page
+    }
+  </script>
+
+</body>
+</html>

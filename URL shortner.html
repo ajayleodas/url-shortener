@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="Untitled-1.css">
+</head>
+<body>
+  
+  <div class="container">
+    <h1>🔑 <span>Login</span></h1>
+    <p>Don’t have an account? <a href="signup.html">Create Account</a></p>
+    
+    <form onsubmit="login(); return false;">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter Username" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter Password" required>
+
+      <button type="submit"><a href="after login.html">Login 🚀</a></button>
+    </form>
+
+    <p style="margin-top:15px;">
+      <a href="forgot.html">Forgot Password?</a>
+    </p>
+  </div>
+
+  <script>
+    function login() {
+      let user = document.getElementById("username").value;
+      let pass = document.getElementById("password").value;
+
+      if (user && pass) {
+        alert("✅ Logged in successfully!");
+        // Later: window.location.href = "urlPage.html";
+      } else {
+        alert("⚠️ Please enter username and password");
+      }
+    }
+  </script>
+
+</body>
+</html>
