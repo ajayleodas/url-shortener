@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Domain Verification</title>
+  <link rel="stylesheet" href="Untitled-1.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🌍 <span>Domain Verification</span></h1>
+    <p>To verify your domain ownership, please follow the steps below.</p>
+
+    <form id="verifyForm" onsubmit="verifyDomain(); return false;">
+      <label for="domain">Domain Name</label>
+      <input type="text" id="domain" placeholder="Enter your domain (e.g., example.com)" required>
+
+      <label>TXT Record to Add</label>
+      <div class="txt-box">
+        <code>ajay-domain-verification=72f9b0e23a1</code>
+      </div>
+
+      <p style="margin-top: 10px;">
+        ➤ Go to your DNS provider panel and add the above TXT record under your domain’s DNS settings.
+      </p>
+
+      <button type="submit">✅ Verify Domain</button>
+      <p id="status" style="margin-top:10px;"></p>
+
+      <!-- Hidden create account button (shows only after success) -->
+      <button type="button" id="createAccountBtn" class="create-btn" style="display:none;" onclick="window.location.href='create account.html'">📝 Create Account</button>
+
+      <!-- Back to login button -->
+      <button type="button" class="back-btn" onclick="window.location.href='URL shortner.html'">⬅ Back to Login</button>
+    </form>
+  </div>
+
+  <script>
+    function verifyDomain() {
+      let domain = document.getElementById("domain").value.trim();
+      let status = document.getElementById("status");
+      let createBtn = document.getElementById("createAccountBtn");
+
+      if (domain === "") {
+        status.style.color = "red";
+        status.textContent = "⚠️ Please enter your domain name.";
+        return;
+      }
+
+      status.style.color = "#333";
+      status.textContent = "⏳ Checking DNS TXT record for " + domain + "...";
+      createBtn.style.display = "none"; // hide until verified
+
+      // Simulated DNS check
+      setTimeout(() => {
+        status.style.color = "green";
+        status.textContent = "✅ Domain verified successfully for " + domain + "!";
+        createBtn.style.display = "inline-block"; // show create account button
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
